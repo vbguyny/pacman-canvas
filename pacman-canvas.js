@@ -139,7 +139,7 @@ function geronimo() {
 		this.running = false;
 		this.pause = true;
 		this.score = new Score();
-		this.soundfx = 0;
+		this.soundfx = 1;
 		this.map;
 		this.pillCount;				// number of pills
 		this.monsters;
@@ -398,10 +398,10 @@ function geronimo() {
 			
 			// initalize Ghosts, avoid memory flooding
 			if (pinky === null || pinky === undefined) {
-				pinky = new Ghost("pinky",7,5,'img/pinky.svg',2,2);
-				inky = new Ghost("inky",8,5,'img/inky.svg',13,11);
-				blinky = new Ghost("blinky",9,5,'img/blinky.svg',13,0);
-				clyde = new Ghost("clyde",10,5,'img/clyde.svg',2,11);
+				pinky = new Ghost("pinky",7,5,'img/pinky.png',2,2);
+				inky = new Ghost("inky",8,5,'img/inky.png',13,11);
+				blinky = new Ghost("blinky",9,5,'img/blinky.png',13,0);
+				clyde = new Ghost("clyde",10,5,'img/clyde.png',2,11);
 			}
 			else {
 				//console.log("ghosts reset");
@@ -950,6 +950,15 @@ function geronimo() {
 	}
 	
 	function pacman() {
+	    this.TailImgLeft = new Image();
+	    this.TailImgLeft.src = 'img/taill.png';
+	    this.TailImgRight = new Image();
+	    this.TailImgRight.src = 'img/tailr.png';
+	    this.TailImgUp = new Image();
+	    this.TailImgUp.src = 'img/tailu.png';
+	    this.TailImgDown = new Image();
+	    this.TailImgDown.src = 'img/taild.png';
+
 		this.radius = 15;
 		this.posX = 0;
 		this.posY = 6*2*this.radius;
@@ -1156,7 +1165,7 @@ function geronimo() {
 		}
 		this.reset = function() {
 			this.unfreeze();
-			this.posX = 0;
+			this.posX = 30;
 			this.posY = 6*2*this.radius;
 			this.setDirection(right);
 			this.stop();
@@ -1439,6 +1448,22 @@ function checkAppCache() {
 				context.lineTo(pacman.posX+pacman.radius, pacman.posY+pacman.radius);
 				context.stroke();
 				context.fill();
+
+				switch (pacman.direction.name)
+				{
+				    case "left":
+				        context.drawImage(pacman.TailImgLeft, pacman.posX + pacman.radius * 2, pacman.posY, 2 * pacman.radius, 2 * pacman.radius);
+				        break;
+				    case "right":
+				        context.drawImage(pacman.TailImgRight, pacman.posX - pacman.radius * 2, pacman.posY, 2 * pacman.radius, 2 * pacman.radius);
+				        break;
+				    case "up":
+				        context.drawImage(pacman.TailImgUp, pacman.posX, pacman.posY + pacman.radius * 2, 2 * pacman.radius, 2 * pacman.radius);
+				        break;
+				    case "down":
+				        context.drawImage(pacman.TailImgDown, pacman.posX, pacman.posY - pacman.radius * 2, 2 * pacman.radius, 2 * pacman.radius);
+				        break;
+				}
 			}
 			
 		}
